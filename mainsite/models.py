@@ -86,6 +86,10 @@ class issue(object):
                              order by count(*) desc
                              limit %%s""" % (issue.table), [n])
 
+    @classmethod
+    def get_with_filings(self, code, top):
+        """Get lobbyist rows by firstname and lastname. This can return multiple rows"""
+        return fetchall("select * from lobbyists_filing as lf right join lobbyists_issue as li on li.filing_id = lf.filing_id where code like %s order by filing_amount desc limit %s", [code,top])
 
 class lobbyist(object):
     """Utility functions for the table lobbyist_lobbyist"""
@@ -101,6 +105,7 @@ class lobbyist(object):
     @classmethod
     def get_with_filings(self, first_name, last_name):
         """Get lobbyist rows by firstname and lastname. This can return multiple rows"""
+        #TODO: this is slow currently without an index
         return fetchall("select * from lobbyists_filing as lf right join lobbyists_lobbyist as ll on ll.filing_id = lf.filing_id where ll.firstname LIKE %s AND ll.lastname LIKE %s", [first_name,last_name])
 
     @classmethod

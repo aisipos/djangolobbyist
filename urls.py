@@ -7,7 +7,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
                        url(r'^$'            ,'lobbyist.mainsite.views.index', name = 'home'),
                        url(r'^issue/$'                          ,'lobbyist.mainsite.views.issues',          name = 'issue'),
-                       url(r'^issue/(?P<issue_id>.+?)/$'        ,'lobbyist.mainsite.views.issue_detail',    name = 'issue_detail'),
+                       url(r'^issue/(?P<code>.+?)/$'        ,'lobbyist.mainsite.views.issue_detail',    name = 'issue_detail'),
                        url(r'^lobbyist/(?P<first_name>.*?)/(?P<last_name>.*?)/$'  ,'lobbyist.mainsite.views.lobbyist_detail', name = 'lobbyist_detail'),
                        url(r'^lobbyist/$'                          ,'lobbyist.mainsite.views.lobbyists',       name = 'lobbyist'),
                        url(r'^client/$'                            ,'lobbyist.mainsite.views.clients',          name = 'client'),

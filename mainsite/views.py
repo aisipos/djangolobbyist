@@ -29,6 +29,7 @@ def issues(request):
     #pdb.set_trace()
     top_issues_raw = model.issue.get_top(top)
     top_issues = [dictAdd(issue,'key',make_key(issue['code']) )  for issue in top_issues_raw]
+    issues_sum = sum(issue['count'] for issue in top_issues)
     return render_to_response("issue/top_issues.html", locals(), context_instance = RequestContext(request))
 
 def issue_detail(request, issue_id):

@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+
+{%block content%}
+<h1>Top filings for {{id}}</h1>
+
+<div class="module-content">
+<table class="minicharttable">
+<td><b>Client Name</b></td>
+<td><b>Client State</b></td>
+<td><b>Registrant Name</b></td>
+<td><b>Dollar Amount</b></td>
+{% for filing in filings %}
+<tr>
+<td>{{filing.client_name}}</td>
+<td>{{filing.client_state}}</td>
+<td>{{filing.registrant_name}}</td>
+<td>{{filing.filing_amount}}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+{%endblock%}

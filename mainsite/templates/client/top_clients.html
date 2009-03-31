@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+{% load charts %}
+
+{%block content%}
+<h1>Top Clients</h1>
+
+<table>
+<td><b>Name</b><td><b>Number of Filings</b></td></td>
+{% for client in top_clients %}
+<tr>
+<td>{{client.client_name}}</td> <td>{{client.count}}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+{%endblock%}
+
+

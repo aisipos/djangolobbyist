@@ -1,0 +1,14 @@
+{% extends "master.html" %}
+
+{%block content%}
+<h1>Top Issues</h1>
+
+<table>
+<td><b>Name</b></td><td><b>Count</b></td>
+{% for issue in top_issues %}
+<tr>
+<td>{{issue.code}}</td> <td>{{issue.count}}</td> <td><a href="{% url issue_detail issue.key %}">Details</a> </td>
+</tr>
+{% endfor %}
+</table>
+{%endblock%}

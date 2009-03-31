@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+
+{%block content%}
+<h1>Lobbyist Detail</h1>
+
+<table>
+<td><b>First Name</b></td>
+<td><b>Last Name</b></td>
+<td><b>filing_amount</b></tb>
+
+{% for lobbyist in lobbyists %}
+<tr>
+<td>{{lobbyist.firstname}}</td> 
+<td>{{lobbyist.lastname}}</td>
+<td>{{lobbyist.filing_amount}}</td>
+<td>{{lobbyist.client_name}}</td>
+<td>{{lobbyist.client_state}}</td>
+<td>{{lobbyist.registrant_name}}</td>
+
+</tr>
+{% endfor %}
+</table>
+{%endblock%}

@@ -1,0 +1,51 @@
+<html>
+<head>
+<style type="text/css" media="screen">
+  ul {
+    margin: 0;
+    padding: 0;
+    width: 190px;
+    background-color: #fff;
+  }
+  
+  ul li {
+    font-size: 11px;
+    line-height: 20px;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    border-bottom: 1px solid #ebeff2;
+    background-color: #fff;
+  }
+ 
+ ul li span {
+    background-color: #a9d2f2;
+    display: block;
+    color: #125a95;
+    font-weight: bold;
+    padding: 0 0 0 5px;
+    white-space: nowrap;
+  }
+
+  .center {
+    text-align:center;
+    background:yellow;
+  }
+  
+</style>
+</head>
+
+  <body>
+  {% block header%}
+     <h1 class="center"><a href={% url home %}>LobbyWatch</a></h1>
+  {% endblock %}
+
+  {% block content%}
+  {% endblock%}
+
+  {% block footer%}
+    <hr>
+    <i>LobbyWatch development site</i>
+  {% endblock footer%}
+  </body>
+</html>

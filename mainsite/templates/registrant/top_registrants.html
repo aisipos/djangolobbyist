@@ -1,0 +1,14 @@
+{% extends "master.html" %}
+
+{%block content%}
+<h1>Top Registrants</h1>
+
+<table>
+<td><b>Name</b><td><b>Number of Filings</b></td></td>
+{% for registrant in top_registrants %}
+<tr>
+<td>{{registrant.registrant_name}}</td> <td>{{registrant.count}}</td>
+</tr>
+{% endfor %}
+</table>
+{%endblock%}

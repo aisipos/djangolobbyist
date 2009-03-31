@@ -1,0 +1,16 @@
+{% extends "master.html" %}
+
+{%block content%}
+<h1>Top Lobbyists</h1>
+
+<table>
+<td><b>First Name</b><td><b>Last Name</b></td></td><td><b>Count</b></td>
+{% for lobbyist in top_lobbyists %}
+<tr>
+<td>{{lobbyist.firstname}}</td> <td>{{lobbyist.lastname}}</td> <td>{{lobbyist.count}}</td> 
+<td><a href="{% url lobbyist_detail lobbyist.firstname lobbyist.lastname %}">Details</a></td>
+</tr>
+{% endfor %}
+</table>
+{%endblock%}
+

@@ -6,17 +6,20 @@
 <table>
 <td><b>First Name</b></td>
 <td><b>Last Name</b></td>
-<td><b>filing_amount</b></tb>
-
-{% for lobbyist in lobbyists %}
+<td><b>Filing Amount</b></td>
+<td><b>Client Name</b></td>
+<td><b>Client State</b></td>
+<td><b>Registrant Name</b></td>
+<td><b>Filing Details</b></td>
+{% for filing in filings %}
 <tr>
-<td>{{lobbyist.firstname}}</td> 
-<td>{{lobbyist.lastname}}</td>
-<td>{{lobbyist.filing_amount}}</td>
-<td>{{lobbyist.client_name}}</td>
-<td>{{lobbyist.client_state}}</td>
-<td>{{lobbyist.registrant_name}}</td>
-
+<td>{{filing.firstname}}</td> 
+<td>{{filing.lastname}}</td>
+<td>{{filing.filing_amount}}</td>
+<td><a href="{% url client_detail filing.client_senate_id %}">{{filing.client_name}}</a></td>
+<td>{{filing.client_state}}</td>
+<td>{{filing.registrant_name}}</td>
+<td> <a href="http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID={{filing.filing_id}}">Details</a></td>
 </tr>
 {% endfor %}
 </table>

@@ -33,8 +33,8 @@ def issues(request):
     return render_to_response("issue/top_issues.html", locals(), context_instance = RequestContext(request))
 
 def issue_detail(request, code):
-    import pdb
-    pdb.set_trace()
+    #import pdb
+    #pdb.set_trace()
     id = unquote_key(code)
     #issue = model.issue.get(id)
     filings = model.issue.get_with_filings(id, top)
@@ -50,15 +50,17 @@ def lobbyist_detail(request, first_name, last_name):
     first_name = first_name.upper()
     last_name  = last_name.upper()
     #lobbyists = model.lobbyist.get(first_name,last_name) #Will get multiple rows
-    lobbyists = model.lobbyist.get_with_filings(first_name, last_name)
+    filings = model.lobbyist.get_with_filings(first_name, last_name)
     return render_to_response("lobbyist/lobbyist.html", locals(), context_instance = RequestContext(request))
 
 def clients(request):
-    top_clients = model.filing.top_clients(top)
+    filings = model.client.top_clients(top)
     return render_to_response("client/top_clients.html", locals(), context_instance = RequestContext(request))
 
-def client_detail(request):
-    raise Exception("You should write this.")
+def client_detail(request,client_id):
+    filings = model.client.find_by_id(client_id)
+    filings_sum = sum(filing['filing_amount'] for filing in filings)
+    return render_to_response("client/client.html", locals(), context_instance = RequestContext(request))
 
 def registrants(request):
     top_registrants = model.filing.top_registrants(top)

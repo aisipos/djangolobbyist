@@ -1,0 +1,27 @@
+{% extends "master.html" %}
+
+{%block content%}
+<h1>Client {{filings.0.client_name}}</h1>
+<h2>Top {{top}} filings by value</h2>
+<div class="module-content">
+<table class="minicharttable">
+<td><b>Details</b></td>
+<td><b>Filing amount</b></td>
+<td><b>Registrant name</b></td>
+<td><b>Filing Date</b></td>
+{% for filing in filings %}
+<tr>
+<td> <a href="http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID={{filing.filing_id}}">Details</a></td>
+<td> <span class="name" style="width:100px">
+      <span class="front">{{filing.filing_amount}}</span>
+      <span class="index" style="width: {% widthratio filing.filing_amount filings_sum 100 %}%"/> 
+    </span>
+</td>
+<td>{{filing.registrant_name}}</td>
+<td>{{filing.filing_date}}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+{%endblock%}

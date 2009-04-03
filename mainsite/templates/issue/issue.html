@@ -11,10 +11,11 @@
 <td><b>Dollar Amount</b></td>
 {% for filing in filings %}
 <tr>
-<td>{{filing.client_name}}</td>
+<td><a href="{%url client_detail filing.client_senate_id%}">{{filing.client_name}}</a></td>
 <td>{{filing.client_state}}</td>
 <td>{{filing.registrant_name}}</td>
 <td>{{filing.filing_amount}}</td>
+<td><a href="http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID={{filing.filing_id}}">Details</a></td>
 </tr>
 {% endfor %}
 </table>

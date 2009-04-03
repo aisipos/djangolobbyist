@@ -1,6 +1,13 @@
 from django.db import models
 from django.db import connection
 
+defaultTop = 20
+
+def filingPdfLink(id):
+    "Given a filing id, generate a link to it's PDF from soprweb.senate.gov"
+    #TODO: Put this in the Django template language somehow
+    return "http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID=%s" % (id)
+
 def fix_countstar(s):
     """Return the name of the field, renaming count(*) to count """
     return 'count' if (s == 'count(*)') else s
@@ -78,16 +85,16 @@ class issue(object):
         return fetchone("select * from %s where code = %%s" % (issue.table), [code])
 
     @classmethod
-    def get_top(self, n):
+    def get_top(self, top = defaultTop):
          """Find the top n rows lobbyists_issue, return a list of name of issue->number of rows"""
          #return "SELECT code,count(*) FROM lobbyists_issue group by code order by count(*) desc"
          return fetchall("""select code ,count(*) from %s
                              group by code 
                              order by count(*) desc
-                             limit %%s""" % (issue.table), [n])
+                             limit %%s""" % (issue.table), [top])
 
     @classmethod
-    def get_with_filings(self, code, top):
+    def get_with_filings(self, code, top = defaultTop):
         """Get lobbyist rows by firstname and lastname. This can return multiple rows"""
         return fetchall("select * from lobbyists_filing as lf right join lobbyists_issue as li on li.filing_id = lf.filing_id where code like %s order by filing_amount desc limit %s", [code,top])
 
@@ -117,22 +124,39 @@ class lobbyist(object):
         return fetchall(group_query("firstname,lastname", "lobbyists_lobbyist"), [n])
 
 class filing(object):
-    """ """
+    """The lobbyists_filing table contains one row per "filing" """
     #client_name     the organization who the lobbying is on behalf of
     #registrant_name the lobbying organization itself, which can be the same of client_name
     table = "lobbyists_filing"
 
     @classmethod
-    def top_clients(self, n):
-        "Find organizations who have most filings done on their behalf"        
-        return fetchall(group_query("client_name", filing.table), [n])
-
-    @classmethod
-    def top_registrants(self, n):
+    def top_registrants(self, top):
         "Find lobbying firms who have most filings"        
-        return fetchall(group_query("registrant_name", filing.table), [n]) 
+        return fetchall(group_query("registrant_name", filing.table), [defaultTop]) 
 
     @classmethod
     def get_filing(self, filing_id):
         "Find a row in filing table given filing_id (which is a GUID string)"
-        return fetchone("select * from %s where filing_id = %%S" % filing.table,[filing_id])
+        return fetchone("select * from %s where filing_id = %%s" % filing.table,[filing_id])
+
+class client(object):
+    """A client is an organization that is doing lobbying themselves or hiring a "registrant"
+       organization to lobby for them.
+    """
+    table = "lobbyists_filing"
+
+    @classmethod
+    def find_by_id(self, id, top=defaultTop, orderColumn = "filing_amount"):
+        "Find the filings of a client by senate id, ordered by a column"
+        return fetchall("select * from %s where client_senate_id = %%s order by %s desc limit %%s" % (client.table, orderColumn), [id, top])
+
+    @classmethod
+    def top_clients(self, top = defaultTop):
+        "Find organizations who have most filings done on their behalf" 
+        #TODO: Get client_senate_id also so we can make links
+        return fetchall(group_query("client_name", client.table), [top])
+
+class registrant(object):
+    """A registrant is an organization who does the lobbying directly."""
+    table = "lobbyists_filing"
+

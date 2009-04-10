@@ -116,12 +116,12 @@ class lobbyist(object):
         return fetchall("select * from lobbyists_filing as lf right join lobbyists_lobbyist as ll on ll.filing_id = lf.filing_id where ll.firstname LIKE %s AND ll.lastname LIKE %s", [first_name,last_name])
 
     @classmethod
-    def get_top(self, n):
+    def get_top(self, top=defaultTop):
         """Find the top n rows lobbyists_lobbyists, return a list of firstname,lastname,count.
            We tell the db to group by (firstname,lastname), which in the case of common names could lump different lobbyists into one.
            Note that many rows have no firstname and lastname.
         """
-        return fetchall(group_query("firstname,lastname", "lobbyists_lobbyist"), [n])
+        return fetchall(group_query("firstname,lastname", "lobbyists_lobbyist"), [top])
 
 class filing(object):
     """The lobbyists_filing table contains one row per "filing" """
@@ -132,7 +132,7 @@ class filing(object):
     @classmethod
     def top_registrants(self, top):
         "Find lobbying firms who have most filings"        
-        return fetchall(group_query("registrant_name", filing.table), [defaultTop]) 
+        return fetchall(group_query("registrant_name, registrant_senate_id", filing.table), [defaultTop]) 
 
     @classmethod
     def get_filing(self, filing_id):
@@ -160,3 +160,14 @@ class registrant(object):
     """A registrant is an organization who does the lobbying directly."""
     table = "lobbyists_filing"
 
+    @classmethod
+    def top_clients(self, registrant_senate_id, top = defaultTop):
+        "Find the clients with the most filings with a particular registrant"
+        return fetchall("""select count(*),client_senate_id,client_name from %s  
+                            where registrant_senate_id = %%s
+                            group by client_senate_id, client_name
+                            order by count(*) desc
+                            limit %%s
+                        """ % (registrant.table), [registrant_senate_id, top])
+        #return fetchall(group_query("client_name", registrant.table), [n])
+        

@@ -66,5 +66,6 @@ def registrants(request):
     top_registrants = model.filing.top_registrants(top)
     return render_to_response("registrant/top_registrants.html", locals(), context_instance = RequestContext(request))
 
-def registrant_detail(request):
-    raise Exception("You should write this.")
+def registrant_detail(request, registrant_id):
+    top_clients = model.registrant.top_clients(registrant_id, top)
+    return render_to_response("registrant/registrant.html", locals(), context_instance = RequestContext(request))

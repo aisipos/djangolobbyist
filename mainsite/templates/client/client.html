@@ -17,7 +17,7 @@
       <span class="index" style="width: {% widthratio filing.filing_amount filings_sum 100 %}%"/> 
     </span>
 </td>
-<td>{{filing.registrant_name}}</td>
+<td><a href="{%url registrant_detail filing.registrant_senate_id%}">{{filing.registrant_name}}</a></td>
 <td>{{filing.filing_date}}</td>
 </tr>
 {% endfor %}

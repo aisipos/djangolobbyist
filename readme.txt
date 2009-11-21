@@ -6,7 +6,13 @@ Requirements:
  * Django 1.0.2
  * google-chartwrapper (http://code.google.com/p/google-chartwrapper/)
  * MySQL
- ** A database called lobbyist, from the data found at http://data.sunlightlabs.com/sunlightapi/api_lobbyists.sql.gz
+ ** A database called lobbyist, from the data found at http://data.sunlightlabs.com/sunlightapi/api_lobbyists.sql.gz, which you can do via
+ *** wget http://data.sunlightlabs.com/sunlightapi/api_lobbyists.sql.gz
+ *** gunzip api_lobbyists.sql
+ *** mysql -u root
+ ***  create database lobbyist;
+ ***  use lobbyist;
+ ***  source api_lobbyists.sql
  ** modify settings.py if you name this db something else or host it elsewhere than localhost.
  ** settings.py defaults to connecting to DB as root with no password,
     change this if you use different credentials.

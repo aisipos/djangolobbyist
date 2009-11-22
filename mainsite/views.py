@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 from urllib import quote, unquote
 import mainsite.models as model
 
-top = 20
+defaultTop = 20
 
 def dictAdd(d, k,v):
     "Add one more key to a dict"
@@ -24,7 +24,7 @@ def unquote_key(s):
 def index(request):
     return render_to_response("index.html", locals(), context_instance = RequestContext(request))
 
-def issues(request):
+def issues(request, top = defaultTop):
     #import pdb
     #pdb.set_trace()
     top_issues_raw = model.issue.get_top(top)
@@ -32,7 +32,7 @@ def issues(request):
     issues_sum = sum(issue['count'] for issue in top_issues)
     return render_to_response("issue/top_issues.html", locals(), context_instance = RequestContext(request))
 
-def issue_detail(request, code):
+def issue_detail(request, code, top = defaultTop):
     #import pdb
     #pdb.set_trace()
     id = unquote_key(code)
@@ -40,7 +40,7 @@ def issue_detail(request, code):
     filings = model.issue.get_with_filings(id, top)
     return render_to_response("issue/issue.html", locals(), context_instance = RequestContext(request))
 
-def lobbyists(request):
+def lobbyists(request, top = defaultTop):
     #import pdb
     #pdb.set_trace()
     top_lobbyists = model.lobbyist.get_top(top)
@@ -53,7 +53,7 @@ def lobbyist_detail(request, first_name, last_name):
     filings = model.lobbyist.get_with_filings(first_name, last_name)
     return render_to_response("lobbyist/lobbyist.html", locals(), context_instance = RequestContext(request))
 
-def clients(request):
+def clients(request, top = defaultTop):
     filings = model.client.top_clients(top)
     return render_to_response("client/top_clients.html", locals(), context_instance = RequestContext(request))
 
@@ -62,10 +62,10 @@ def client_detail(request,client_id):
     filings_sum = sum(filing['filing_amount'] for filing in filings)
     return render_to_response("client/client.html", locals(), context_instance = RequestContext(request))
 
-def registrants(request):
+def registrants(request, top = defaultTop):
     top_registrants = model.filing.top_registrants(top)
     return render_to_response("registrant/top_registrants.html", locals(), context_instance = RequestContext(request))
 
-def registrant_detail(request, registrant_id):
+def registrant_detail(request, registrant_id, top = defaultTop):
     top_clients = model.registrant.top_clients(registrant_id, top)
     return render_to_response("registrant/registrant.html", locals(), context_instance = RequestContext(request))

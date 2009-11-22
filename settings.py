@@ -1,4 +1,5 @@
 # Django settings for lobbyist project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -35,12 +36,16 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
+if DEBUG:
+    MEDIA_ROOT = os.path.join(os.getcwd(), 'static') + os.path.sep
+#    print "Media root is %s" % MEDIA_ROOT
+else:
+    MEDIA_ROOT = ''
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/static/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -83,4 +88,10 @@ INSTALLED_APPS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
+    "django.core.context_processors.debug",
+    #"django.core.context_processors.i18n",
+    "django.core.context_processors.media"
 )
+
+if DEBUG:
+    TEMPLATE_STRING_IF_INVALID="{Error:Invalid Template String '%s'}"

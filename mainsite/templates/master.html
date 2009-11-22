@@ -1,95 +1,14 @@
-<html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
 <head>
-<style type="text/css" media="screen">
-  ul {
-    margin: 0;
-    padding: 0;
-    width: 190px;
-    background-color: #fff;
-  }
-  
-  ul li {
-    font-size: 11px;
-    line-height: 20px;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    border-bottom: 1px solid #ebeff2;
-    background-color: #fff;
-  }
- 
- ul li span {
-    background-color: #a9d2f2;
-    display: block;
-    color: #125a95;
-    font-weight: bold;
-    padding: 0 0 0 5px;
-    white-space: nowrap;
-  }
-
- span.styledbar {
-    background-color: #a9d2f2;
-    display: block;
-    color: #125a95;
-    font-weight: bold;
-    padding: 0 0 0 5px;
-    white-space: nowrap;
-  }
-
-  .center {
-    text-align:center;
-    background:yellow;
-  }
-  .module-content {
-    border:1px solid #C0CCC4;
-    overflow:hidden;
-    padding:0.75em 16px;
-  }
-  .minicharttable .name {
-    display:block;
-    overflow:hidden;
-    position:relative;
-    white-space:nowrap;
-    width:100%;
-  }
-
-  .minicharttable .index {
-    background:#E1F3FA none repeat scroll 0 0;
-    bottom:0;
-    display:block;
-    left:0;
-    position:absolute;
-    top:0;
-  }
-  .minicharttable td {
-    border-bottom:1px solid #DBE6DF;
-    font-size:0.75em;
-    line-height:1.875em;
-    padding:0 4px;
-    position:relative;
-  }  
-  .minicharttable .name a {
-    padding:0 0 0 6px;
-    position:relative;
-    z-index:9999;
-  }
-  .minicharttable .name div {
-    padding:0 0 0 6px;
-    position:relative;
-    z-index:9999;
-  }
-  .minicharttable .name .front {
-    padding:0 0 0 6px;
-    position:relative;
-    z-index:9999;
-  }
-
-</style>
+<link rel="stylesheet" href="{{MEDIA_URL}}style.css" type="text/css" title="Main Styles" media="All">
+{% block title%}
+{% endblock %}
 </head>
 
   <body>
   {% block header%}
-     <h1 class="center"><a href={% url home %}>LobbyWatch</a></h1>
+     <h1 class="mainlogo"><a href="{% url home %}" >LobbyWatch</a></h1>
   {% endblock %}
 
   {% block content%}
@@ -97,7 +16,7 @@
 
   {% block footer%}
     <hr>
-    <i>LobbyWatch development site</i>
+    <p class="footer">LobbyWatch development site</p>
   {% endblock footer%}
   </body>
 </html>

@@ -1,14 +1,17 @@
 {% extends "master.html" %}
 
+{%block title%}
+<title>Lobbywatch Main Page</title>
+{%endblock%}
 {%block content%}
 <h1>Lobby Watch</h1>
 
-Main links:</br>
+<h4>Main links</h4>
 <ul>
-<li>  <a href="{% url issue%}">Top Issues</li>
-<li>  <a href="{% url lobbyist%}">Top Lobbyists</li>
-<li>  <a href="{% url client%}">Top Clients</li>
-<li>  <a href="{% url registrant%}">Top Registrants</li>
+<li>  <a href="{% url issue%}">Top Issues</a></li>
+<li>  <a href="{% url lobbyist%}">Top Lobbyists</a></li>
+<li>  <a href="{% url client%}">Top Clients</a></li>
+<li>  <a href="{% url registrant%}">Top Registrants</a></li>
 </ul>
 {%endblock%}
 

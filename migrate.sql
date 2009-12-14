@@ -105,9 +105,7 @@ insert into mainsite_filing (
     filing_date,
     filing_amount,
     filing_year,
-    filing_type,
-    client_id,
-    registrant_id
+    filing_type
 )
 select
     filing_id,
@@ -115,33 +113,49 @@ select
     filing_date,
     filing_amount,
     filing_year,
-    filing_type,
-    mainsite_client.id,
-    mainsite_registrant.id
+    filing_type
 from lobbyist.lobbyists_filing
-join mainsite_client
-on
+;
+
+update mainsite_filing
+join lobbyist.lobbyists_filing on
+    lobbyist.lobbyists_filing.filing_id = mainsite_filing.filing_id
+join mainsite_client on
     lobbyist.lobbyists_filing.client_senate_id          = mainsite_client.client_senate_id              AND
     lobbyist.lobbyists_filing.client_name               = mainsite_client.client_name                   AND
     lobbyist.lobbyists_filing.client_country            = mainsite_client.client_country                AND
     lobbyist.lobbyists_filing.client_state              = mainsite_client.client_state                  AND
     lobbyist.lobbyists_filing.client_ppb_country        = mainsite_client.client_ppb_country            AND
     lobbyist.lobbyists_filing.client_ppb_state          = mainsite_client.client_ppb_state              AND
---    lobbyist.lobbyists_filing.client_description        = mainsite_client.client_description            AND
+    -- lobbyist.lobbyists_filing.client_description        = mainsite_client.client_description            AND
     lobbyist.lobbyists_filing.client_contact_firstname  = mainsite_client.client_contact_firstname      AND
     lobbyist.lobbyists_filing.client_contact_middlename = mainsite_client.client_contact_middlename     AND
-    lobbyist.lobbyists_filing.client_contact_lastname   = mainsite_client.client_contact_lastname      -- AND
---    lobbyist.lobbyists_filing.client_contact_suffix     = mainsite_client.client_contact_suffix         AND
---    lobbyist.lobbyists_filing.client_raw_contact_name   = mainsite_client.client_raw_contact_name
+    lobbyist.lobbyists_filing.client_contact_lastname   = mainsite_client.client_contact_lastname       -- AND
+    -- lobbyist.lobbyists_filing.client_contact_suffix     = mainsite_client.client_contact_suffix         AND
+    -- lobbyist.lobbyists_filing.client_raw_contact_name   = mainsite_client.client_raw_contact_name
+set
+    mainsite_filing.client_id = mainsite_client.id
+;
+select count(distinct(client_id)) from mainsite_filing;
+select count(*) from mainsite_filing where client_id is null;
+
+update mainsite_filing
+join lobbyist.lobbyists_filing on
+    lobbyist.lobbyists_filing.filing_id = mainsite_filing.filing_id
 join mainsite_registrant
 on
     lobbyist.lobbyists_filing.registrant_senate_id      = mainsite_registrant.registrant_senate_id      AND
     lobbyist.lobbyists_filing.registrant_name           = mainsite_registrant.registrant_name           AND
---    lobbyist.lobbyists_filing.registrant_description    = mainsite_registrant.registrant_description    AND
+    lobbyist.lobbyists_filing.registrant_description    = mainsite_registrant.registrant_description    AND
     lobbyist.lobbyists_filing.registrant_address        = mainsite_registrant.registrant_address        AND
     lobbyist.lobbyists_filing.registrant_country        = mainsite_registrant.registrant_country        AND
     lobbyist.lobbyists_filing.registrant_ppb_country    = mainsite_registrant.registrant_ppb_country
+set
+    mainsite_filing.registrant_id = mainsite_registrant.id
 ;
+select count(distinct(registrant_id)) from mainsite_filing;
+select count(*) from mainsite_filing where registrant_id is null;
+
 
 -- Setup the issues
 insert into mainsite_issue (

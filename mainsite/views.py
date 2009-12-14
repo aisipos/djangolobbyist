@@ -1,10 +1,13 @@
 # Create your views here.
 
-from django.http import HttpResponse
-from django.template import Context, loader, RequestContext
+from django.http      import HttpResponse
+from django.template  import Context, loader, RequestContext
 from django.shortcuts import render_to_response
-from urllib import quote, unquote
+from urllib           import quote, unquote
+from django.db.models import Count
+from django.db        import connection
 import mainsite.models as model
+from mainsite.models  import Filing,Client,Registrant,Issue
 
 defaultTop = 20
 
@@ -54,7 +57,13 @@ def lobbyist_detail(request, first_name, last_name):
     return render_to_response("lobbyist/lobbyist.html", locals(), context_instance = RequestContext(request))
 
 def clients(request, top = defaultTop):
-    filings = model.client.top_clients(top)
+    #This query is slow
+    #clients = Client.objects.annotate(num_filings = Count('filing')).order_by('-num_filings')[:top]
+    cursor = connection.cursor()
+    cursor.execute("SELECT client_id, COUNT(client_id)  FROM mainsite_filing where client_id != 0 GROUP BY client_id  ORDER BY COUNT(client_id) DESC LIMIT %d" % top)
+    ids =[x[0] for x in cursor.fetchall()]
+    clients = Client.objects.filter(pk__in = ids) #.annotate(count=Count('filing')) #Also slow
+    clients = sorted(clients, key=lambda x: x.filing_set.count(), reverse=True) #Need to resort again
     return render_to_response("client/top_clients.html", locals(), context_instance = RequestContext(request))
 
 def client_detail(request,client_id):

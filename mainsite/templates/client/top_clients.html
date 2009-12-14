@@ -8,7 +8,7 @@
 <td><b>Name</b><td><b>Number of Filings</b></td></td>
 {% for client in clients %}
 <tr>
-<td>{{client.client_name}}</td> <td>{{client.count}}</td>
+<td>{{client.client_name}}</td> <td>{{client.filing_set.count}}</td>
 </tr>
 {% endfor %}
 

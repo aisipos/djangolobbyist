@@ -5,6 +5,7 @@ It is currently still very new and under development.
 Requirements:
  * Django 1.0.2 or Django 1.1
  * google-chartwrapper (http://code.google.com/p/google-chartwrapper/)
+ * django-extensions   (http://github.com/django-extensions/django-extensions)
  * MySQL, python MySQL drivers
  ** A database called lobbyist, from the data found at http://data.sunlightlabs.com/sunlightapi/api_lobbyists.sql.gz, which you can do via
  *** wget http://data.sunlightlabs.com/sunlightapi/api_lobbyists.sql.gz

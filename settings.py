@@ -2,6 +2,7 @@
 import os
 
 DEBUG = True
+INTERNAL_IPS = ['127.0.0.1']
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -83,6 +84,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'GChartWrapper.charts',
+    'django_extensions',
     'lobbyist.mainsite',
 )
 

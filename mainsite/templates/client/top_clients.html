@@ -6,7 +6,7 @@
 
 <table>
 <td><b>Name</b><td><b>Number of Filings</b></td></td>
-{% for client in clients %}
+{% for client in top_clients %}
 <tr>
 <td>{{client.client_name}}</td> <td>{{client.filing_set.count}}</td>
 </tr>

@@ -30,9 +30,14 @@ def index(request):
 def issues(request, top = defaultTop):
     #import pdb
     #pdb.set_trace()
-    top_issues_raw = model.issue.get_top(top)
-    top_issues = [dictAdd(issue,'key',make_key(issue['code']) )  for issue in top_issues_raw]
-    issues_sum = sum(issue['count'] for issue in top_issues)
+    #Needs index on issue_id in mainsite_filing_issues
+    cursor = connection.cursor()
+    #TODO: always returns issues with 1 filing, suspect something wrong with migration script
+    cursor.execute("SELECT issue_id, COUNT(issue_id) FROM mainsite_filing_issues GROUP BY issue_id ORDER BY COUNT(issue_id) DESC LIMIT %d" % top)
+    ids =[x[0] for x in cursor.fetchall()]
+    top_issues = Issue.objects.filter(pk__in = ids) #.annotate(count=Count('filing')) #Also slow
+    top_issues = sorted(top_issues, key=lambda x: x.filing_set.count(), reverse=True) #Need to resort again
+    issues_sum = sum(issue.filing_set.count() for issue in top_issues)
     return render_to_response("issue/top_issues.html", locals(), context_instance = RequestContext(request))
 
 def issue_detail(request, code, top = defaultTop):

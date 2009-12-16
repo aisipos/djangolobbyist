@@ -1,4 +1,5 @@
 {% extends "master.html" %}
+{% load lobbyist_extras %}
 
 {%block content%}
 <h1>Top {{top}} Issues</h1>
@@ -12,11 +13,11 @@
 {% for issue in top_issues %}
 <tr>
 <td><span class="name">
-      <a href="{% url issue_detail issue.key %}">{{issue.code}}</a>
-      <span class="index" style="width: {% widthratio issue.count issues_sum 100 %}%"/> 
+      <a href="{% url issue_detail issue.code|make_key %}">{{issue.code}}</a>
+      <span class="index" style="width: {% widthratio issue.filing_set.count issues_sum 100 %}%"/> 
     </span>
 </td>
-<td>{{issue.count}}</td>
+<td>{{issue.filing_set.count}}</td>
 </tr>
 {% endfor %}
 </table>

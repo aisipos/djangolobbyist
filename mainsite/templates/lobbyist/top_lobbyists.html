@@ -7,7 +7,7 @@
 <td><b>First Name</b><td><b>Last Name</b></td></td><td><b>Count</b></td>
 {% for lobbyist in top_lobbyists %}
 <tr>
-<td>{{lobbyist.firstname}}</td> <td>{{lobbyist.lastname}}</td> <td>{{lobbyist.count}}</td> 
+<td>{{lobbyist.firstname}}</td> <td>{{lobbyist.lastname}}</td> <td>{{lobbyist.filings.count}}</td> 
 <td><a href="{% url lobbyist_detail lobbyist.firstname lobbyist.lastname %}">Details</a></td>
 </tr>
 {% endfor %}

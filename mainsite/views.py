@@ -7,7 +7,7 @@ from urllib           import quote, unquote
 from django.db.models import Count
 from django.db        import connection
 import mainsite.models as model
-from mainsite.models  import Filing,Client,Registrant,Issue
+from mainsite.models  import Filing,Client,Registrant,Issue,Lobbyist
 
 defaultTop = 20
 
@@ -46,7 +46,14 @@ def issue_detail(request, code, top = defaultTop):
 def lobbyists(request, top = defaultTop):
     #import pdb
     #pdb.set_trace()
-    top_lobbyists = model.lobbyist.get_top(top)
+    #top_lobbyists = Lobbyist.objects.annotate(num_filings=Count('filings')).order_by('-num_filings')[:5] #
+    cursor = connection.cursor()
+    #Really needs an index on column lobbyist_id in join table mainsite_lobbyist_filings
+    #TODO: always returns lobbyists with 1 filing, suspect something wrong with migration script
+    cursor.execute("SELECT lobbyist_id, COUNT(lobbyist_id) FROM mainsite_lobbyist_filings GROUP BY lobbyist_id ORDER BY COUNT(lobbyist_id) DESC LIMIT %d" % top)
+    ids =[x[0] for x in cursor.fetchall()]
+    top_lobbyists = Lobbyist.objects.filter(pk__in = ids) #.annotate(count=Count('filing')) #Also slow
+    top_lobbyists = sorted(top_lobbyists, key=lambda x: x.filings.count(), reverse=True) #Need to resort again
     return render_to_response("lobbyist/top_lobbyists.html", locals(), context_instance = RequestContext(request))
 
 def lobbyist_detail(request, first_name, last_name):

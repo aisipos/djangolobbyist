@@ -75,9 +75,11 @@ def clients(request, top = defaultTop):
     top_clients = sorted(top_clients, key=lambda x: x.filing_set.count(), reverse=True) #Need to resort again
     return render_to_response("client/top_clients.html", locals(), context_instance = RequestContext(request))
 
-def client_detail(request,client_id):
-    filings = model.client.find_by_id(client_id)
-    filings_sum = sum(filing['filing_amount'] for filing in filings)
+def client_detail(request,client_senate_id, top = defaultTop):
+    client  = Client.objects.get(pk = client_senate_id)
+    filings = client.filing_set.all()[:defaultTop]
+    filings_sum = sum( (filing.filing_amount if isinstance(filing.filing_amount, int) else 0) for filing in filings)
+    nonzero_sum = filings_sum > 0
     return render_to_response("client/client.html", locals(), context_instance = RequestContext(request))
 
 def registrants(request, top = defaultTop):

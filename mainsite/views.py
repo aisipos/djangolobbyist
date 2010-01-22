@@ -92,6 +92,8 @@ def registrants(request, top = defaultTop):
     top_registrants = sorted(top_registrants, key=lambda x: x.filing_set.count(), reverse=True) #Need to resort again
     return render_to_response("registrant/top_registrants.html", locals(), context_instance = RequestContext(request))
 
-def registrant_detail(request, registrant_id, top = defaultTop):
-    top_clients = model.registrant.top_clients(registrant_id, top)
+def registrant_detail(request, registrant_senate_id, top = defaultTop):
+    #top_clients = model.registrant.top_clients(registrant_id, top) #Clients with most filings
+    #registrant = Registrant.objects.get(registrant_senate_id = registrant_senate_id) #TODO: senate id's are not unique
+    registrant = Registrant.objects.filter(registrant_senate_id = registrant_senate_id)[0]
     return render_to_response("registrant/registrant.html", locals(), context_instance = RequestContext(request))

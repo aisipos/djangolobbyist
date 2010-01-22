@@ -1,26 +1,27 @@
 {% extends "master.html" %}
 
 {%block content%}
-<h1>Lobbyist Detail</h1>
+<h1>Lobbyist Detail: {{lobbyist.firstname}} {{lobbyist.lastname}}</h1>
 
-<table>
-<td><b>First Name</b></td>
-<td><b>Last Name</b></td>
-<td><b>Filing Amount</b></td>
+
+<h2>Top Filings</h2>
+
+<div class="module-content">
+<table class="minicharttable">
 <td><b>Client Name</b></td>
 <td><b>Client State</b></td>
 <td><b>Registrant Name</b></td>
-<td><b>Filing Details</b></td>
+<td><b>Dollar Amount</b></td>
 {% for filing in filings %}
 <tr>
-<td>{{filing.firstname}}</td> 
-<td>{{filing.lastname}}</td>
+<td><a href="{%url client_detail filing.client.client_senate_id%}">{{filing.client.client_name}}</a></td>
+<td>{{filing.client.client_state}}</td>
+<td><a href="{%url registrant_detail filing.registrant.registrant_senate_id%}">{{filing.registrant.registrant_name}}</a></td>
 <td>{{filing.filing_amount}}</td>
-<td><a href="{% url client_detail filing.client_senate_id %}">{{filing.client_name}}</a></td>
-<td>{{filing.client_state}}</td>
-<td>{{filing.registrant_name}}</td>
-<td> <a href="http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID={{filing.filing_id}}">Details</a></td>
+<td><a href="http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID={{filing.filing_id}}">Details</a></td>
 </tr>
 {% endfor %}
 </table>
+</div>
+
 {%endblock%}

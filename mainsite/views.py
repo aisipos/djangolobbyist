@@ -60,11 +60,9 @@ def lobbyists(request, top = defaultTop):
     top_lobbyists = sorted(top_lobbyists, key=lambda x: x.filings.count(), reverse=True) #Need to resort again
     return render_to_response("lobbyist/top_lobbyists.html", locals(), context_instance = RequestContext(request))
 
-def lobbyist_detail(request, first_name, last_name):
-    first_name = first_name.upper()
-    last_name  = last_name.upper()
-    #lobbyists = model.lobbyist.get(first_name,last_name) #Will get multiple rows
-    filings = model.lobbyist.get_with_filings(first_name, last_name)
+def lobbyist_detail(request, lobbyist_id, top = defaultTop):
+    lobbyist = Lobbyist.objects.get(pk = lobbyist_id)
+    filings = lobbyist.filings.all()[:defaultTop] #Many to many relationship #TODO: sort by amount
     return render_to_response("lobbyist/lobbyist.html", locals(), context_instance = RequestContext(request))
 
 def clients(request, top = defaultTop):

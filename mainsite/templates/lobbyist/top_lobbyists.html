@@ -8,7 +8,7 @@
 {% for lobbyist in top_lobbyists %}
 <tr>
 <td>{{lobbyist.firstname}}</td> <td>{{lobbyist.lastname}}</td> <td>{{lobbyist.filings.count}}</td> 
-<td><a href="{% url lobbyist_detail lobbyist.firstname lobbyist.lastname %}">Details</a></td>
+<td><a href="{% url lobbyist_detail lobbyist.lobbyist_id %}">Details</a></td>
 </tr>
 {% endfor %}
 </table>

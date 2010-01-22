@@ -72,7 +72,7 @@ def clients(request, top = defaultTop):
     cursor.execute("SELECT client_id, COUNT(client_id)  FROM mainsite_filing where client_id != 0 GROUP BY client_id  ORDER BY COUNT(client_id) DESC LIMIT %d" % top)
     ids =[x[0] for x in cursor.fetchall()]
     top_clients = Client.objects.filter(pk__in = ids) #.annotate(count=Count('filing')) #Also slow
-    top_clients = sorted(clients, key=lambda x: x.filing_set.count(), reverse=True) #Need to resort again
+    top_clients = sorted(top_clients, key=lambda x: x.filing_set.count(), reverse=True) #Need to resort again
     return render_to_response("client/top_clients.html", locals(), context_instance = RequestContext(request))
 
 def client_detail(request,client_id):

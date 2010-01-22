@@ -7,8 +7,8 @@ from django.conf import settings
 
 urlpatterns = patterns('',# View Prefix, see http://docs.djangoproject.com/en/dev/topics/http/urls/#the-view-prefix
                        url(r'^$'            ,'lobbyist.mainsite.views.index', name = 'home'),
-                       url(r'^issues?/$'                          ,'lobbyist.mainsite.views.issues',          name = 'issue'),
-                       url(r'^issues?/(?P<code>.+?)/$'            ,'lobbyist.mainsite.views.issue_detail',    name = 'issue_detail'),
+                       url(r'^issues?/$'                             ,'lobbyist.mainsite.views.issues',          name = 'issue'),
+                       url(r'^issues?/(?P<issue_id>.+?)/$'           ,'lobbyist.mainsite.views.issue_detail',    name = 'issue_detail'),
                        url(r'^lobbyists?/(?P<first_name>.*?)/(?P<last_name>.*?)/$'  ,'lobbyist.mainsite.views.lobbyist_detail', name = 'lobbyist_detail'),
                        url(r'^lobbyists?/$'                          ,'lobbyist.mainsite.views.lobbyists',       name = 'lobbyist'),
                        url(r'^clients?/$'                            ,'lobbyist.mainsite.views.clients',          name = 'client'),

@@ -40,12 +40,11 @@ def issues(request, top = defaultTop):
     issues_sum = sum(issue.filing_set.count() for issue in top_issues)
     return render_to_response("issue/top_issues.html", locals(), context_instance = RequestContext(request))
 
-def issue_detail(request, code, top = defaultTop):
+def issue_detail(request, issue_id, top = defaultTop):
     #import pdb
     #pdb.set_trace()
-    id = unquote_key(code)
-    #issue = model.issue.get(id)
-    filings = model.issue.get_with_filings(id, top)
+    issue = Issue.objects.get(pk = issue_id)
+    filings = issue.filing_set.all()[:defaultTop]
     return render_to_response("issue/issue.html", locals(), context_instance = RequestContext(request))
 
 def lobbyists(request, top = defaultTop):

@@ -1,7 +1,7 @@
 {% extends "master.html" %}
 
 {%block content%}
-<h1>Top filings for {{id}}</h1>
+<h1>Top filings for issue {{issue.code}}</h1>
 
 <div class="module-content">
 <table class="minicharttable">
@@ -11,9 +11,9 @@
 <td><b>Dollar Amount</b></td>
 {% for filing in filings %}
 <tr>
-<td><a href="{%url client_detail filing.client_senate_id%}">{{filing.client_name}}</a></td>
-<td>{{filing.client_state}}</td>
-<td><a href="{%url registrant_detail filing.registrant_senate_id%}">{{filing.registrant_name}}</a></td>
+<td><a href="{%url client_detail filing.client.client_senate_id%}">{{filing.client.client_name}}</a></td>
+<td>{{filing.client.client_state}}</td>
+<td><a href="{%url registrant_detail filing.registrant.registrant_senate_id%}">{{filing.registrant.registrant_name}}</a></td>
 <td>{{filing.filing_amount}}</td>
 <td><a href="http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID={{filing.filing_id}}">Details</a></td>
 </tr>

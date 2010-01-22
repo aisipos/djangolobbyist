@@ -13,7 +13,7 @@
 {% for issue in top_issues %}
 <tr>
 <td><span class="name">
-      <a href="{% url issue_detail issue.code|make_key %}">{{issue.code}}</a>
+      <a href="{% url issue_detail issue.issue_id %}">{{issue.code}}</a>
       <span class="index" style="width: {% widthratio issue.filing_set.count issues_sum 100 %}%"/> 
     </span>
 </td>

@@ -1,4 +1,7 @@
--- Run ./manage.py syncdb to setup django_lobbyist DB
+-- Run
+--  mysql -u root -e "create database django_lobbyist"
+--  ./manage.py syncdb
+-- to setup django_lobbyist DB
 -- Setup lobbyist DB from http://data.sunlightlabs.com/sunlightapi/api_lobbyists.sql.gz
 use django_lobbyist;
 

@@ -203,10 +203,12 @@ insert into mainsite_filing_issues(
     filing_id,
     issue_id
 )
-select
-    lobbyist.lobbyists_issue.filing_id,
-    lobbyist.lobbyists_issue.id
-from lobbyist.lobbyists_issue;
+select li.filing_id, mi.issue_id from lobbyist.lobbyists_issue as li
+ join  django_lobbyist.mainsite_issue as mi 
+  on li.code = mi.code
+ group by li.filing_id, mi.issue_id
+;
+
 
 -- Setup many to many join table between lobbyists and filings
 insert into mainsite_lobbyist_filings(

@@ -16,7 +16,9 @@
 <td align=right>
     <span class="name" style="width:100px">
       <span class="front">${{filing.filing_amount|intcomma}}</span>
+      {%if nonzero_sum%}
       <span class="index" style="width: {% widthratio filing.filing_amount total_amount 100 %}%"/>
+      {%endif%}
     </span>
 </td>
 <td><a href="{%url registrant_detail filing.registrant.registrant_senate_id%}">{{filing.registrant.registrant_name}}</a></td>

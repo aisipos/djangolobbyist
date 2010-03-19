@@ -1,5 +1,6 @@
 {% extends "master.html" %}
 {% load lobbyist_extras %}
+{% load humanize %}
 
 {%block content%}
 <h1>Client {{client.client_name}}</h1>
@@ -11,22 +12,23 @@
 <h2>Top {{top}} filings by value</h2>
 <div class="module-content">
 <table class="minicharttable">
-<td><b>Details</b></td>
 <td><b>Filing amount</b></td>
 <td><b>Registrant name</b></td>
 <td><b>Filing Date</b></td>
+<td><b>Details</b></td>
 {% for filing in filings %}
 <tr>
-<td> <a href="{{filing.filing_id|filingPdfLink}}">Details</a></td>
-<td> <span class="name" style="width:100px">
-      <span class="front">{{filing.filing_amount}}</span>
-      {%if non_zero_sum%}
-      <span class="index" style="width: {% widthratio filing.filing_amount filings_sum 100 %}%"/>
+<td align=right>
+    <span class="name" style="width:100px">
+      <span class="front">${{filing.filing_amount|intcomma}}</span>
+      {%if nonzero_sum%}
+      <span class="index" style="width: {% widthratio filing.filing_amount total_amount 100 %}%"/>
       {%endif%}
     </span>
 </td>
 <td><a href="{%url registrant_detail filing.registrant.registrant_senate_id%}">{{filing.registrant.registrant_name}}</a></td>
 <td>{{filing.filing_date}}</td>
+<td> <a href="{{filing.filing_id|filingPdfLink}}">Details</a></td>
 </tr>
 {% endfor %}
 </table>

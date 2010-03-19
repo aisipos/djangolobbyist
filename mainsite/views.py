@@ -28,13 +28,21 @@ def issues(request, top = defaultTop):
     issues_sum = sum(issue.filing_set.count() for issue in top_issues)
     return render_to_response("issue/top_issues.html", locals(), context_instance = RequestContext(request))
 
-def issue_detail(request, issue_id, top = defaultTop):
-    issue = Issue.objects.get(pk = issue_id)
-    filings = sorted(issue.filing_set.all()[:defaultTop], key = lambda x: x.filing_amount, reverse = True)
+def _sortfilings(filings, top = defaultTop):
+    """Sort filings by their amount, set non-numeric amounts to zero.
+       Return a tuple of filings, total amount , and a bool if total amount is > 0
+    """
     for filing in filings:
         filing.filing_amount = filing.filing_amount if isinstance(filing.filing_amount, long) else 0
+    filings= sorted(filings[:defaultTop], key = lambda x: x.filing_amount, reverse = True)
     total_amount = sum(filing.filing_amount for filing in filings)
     nonzero_sum = total_amount > 0
+    return (filings, total_amount, nonzero_sum)
+    
+
+def issue_detail(request, issue_id, top = defaultTop):
+    issue = Issue.objects.get(pk = issue_id)
+    filings, total_amount,nonzero_sum = _sortfilings(issue.filing_set.all()[:defaultTop])
     #import pdb
     #pdb.set_trace()
     return render_to_response("issue/issue.html", locals(), context_instance = RequestContext(request))
@@ -54,7 +62,7 @@ def lobbyists(request, top = defaultTop):
 
 def lobbyist_detail(request, lobbyist_id, top = defaultTop):
     lobbyist = Lobbyist.objects.get(pk = lobbyist_id)
-    filings = lobbyist.filings.all()[:defaultTop] #Many to many relationship #TODO: sort by amount
+    filings, total_amount,nonzero_sum = _sortfilings(lobbyist.filings.all()[:defaultTop]) #Many to many relationship 
     return render_to_response("lobbyist/lobbyist.html", locals(), context_instance = RequestContext(request))
 
 def clients(request, top = defaultTop):
@@ -70,8 +78,7 @@ def clients(request, top = defaultTop):
 def client_detail(request,client_senate_id, top = defaultTop):
     client  = Client.objects.get(pk = client_senate_id)
     filings = client.filing_set.all()[:defaultTop]
-    filings_sum = sum( (filing.filing_amount if isinstance(filing.filing_amount, int) else 0) for filing in filings)
-    nonzero_sum = filings_sum > 0
+    filings, total_amount, nonzero_sum = _sortfilings(filings)
     return render_to_response("client/client.html", locals(), context_instance = RequestContext(request))
 
 def registrants(request, top = defaultTop):

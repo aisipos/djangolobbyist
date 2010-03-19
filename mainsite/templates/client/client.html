@@ -6,7 +6,9 @@
 <h1>Client {{client.client_name}}</h1>
 <table>
   <tr><td>State</td><td>{{client.client_state}}</td></tr>
+  {%ifnotequal client.client_description "unspecified"%}
   <tr><td>Description</td><td>{{client.client_description}}</td></tr>
+  {%endifnotequal%}
   <tr><td>Contact</td><td>{{client.client_contact_firstname}} {{client.client_contact_lastname}}</td></tr>
 </table>
 <h2>Top {{top}} filings by value</h2>

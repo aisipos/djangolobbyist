@@ -11,6 +11,8 @@
 <td><b>Registrant Name</b></td>
 <td><b>Client Name</b></td>
 <td><b>Client State</b></td>
+<td><b>Filing Date</b></td>
+<td><b>Details</b></td>
 {% for filing in filings %}
 <tr>
 <td align=right>
@@ -32,6 +34,7 @@
 {{filing.client.client_state}}
 {%endif%}
 </td>
+<td>{{filing.filing_date}}</td>
 <td><a href="{{filing.filing_id|filingPdfLink}}">Details</a></td>
 </tr>
 {% endfor %}

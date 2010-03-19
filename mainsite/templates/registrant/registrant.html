@@ -15,6 +15,8 @@
 <table class="minicharttable">
 <td><b>Filing amount</b></td>
 <td><b>Registrant name</b></td>
+<td><b>Client Name</b></td>
+<td><b>Client State</b></td>
 <td><b>Filing Date</b></td>
 <td><b>Details</b></td>
 {% for filing in filings %}
@@ -28,6 +30,16 @@
     </span>
 </td>
 <td><a href="{%url registrant_detail filing.registrant.id%}">{{filing.registrant.registrant_name}}</a></td>
+<td>{%if filing.client.client_name %}
+<a href="{%url client_detail filing.client.id%}">{{filing.client.client_name}}</a>
+{%endif%}
+</td>
+<td>
+<!-- {{filing.client.client_state|default_if_none:""}} -->
+{%if filing.client.client_state %}
+{{filing.client.client_state}}
+{%endif%}
+</td>
 <td>{{filing.filing_date}}</td>
 <td> <a href="{{filing.filing_id|filingPdfLink}}">Details</a></td>
 </tr>

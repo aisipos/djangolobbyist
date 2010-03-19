@@ -170,7 +170,10 @@ select
     id,
     code,
     specific_issue
-from lobbyist.lobbyists_issue;
+from lobbyist.lobbyists_issue
+-- Treat issues with the same code as the same
+ group by code
+;
 
 -- Setup the lobbyists
 insert into mainsite_lobbyist (
@@ -190,7 +193,10 @@ select
     suffix,
     official_position,
     raw_name
-from lobbyist.lobbyists_lobbyist;
+from lobbyist.lobbyists_lobbyist
+-- Treat lobbyists with the same first, middle, and last names as the same
+ group by firstname, middlename, lastname
+ ;
 
 -- Setup many to many join table between filings and issues
 insert into mainsite_filing_issues(

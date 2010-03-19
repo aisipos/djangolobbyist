@@ -1,14 +1,25 @@
 {% extends "master.html" %}
 {% load charts %}
-
+{% load humanize %}
 {%block content%}
 <h1>Top Clients</h1>
 
-<table>
-<td><b>Name</b><td><b>Number of Filings</b></td></td>
+<table class="minicharttable">
+<td><b>Name</b>
+<td><b>Number of Filings</b></td></td>
 {% for client in top_clients %}
 <tr>
-<td><a href="{%url client_detail client.client_senate_id%}">{{client.client_name}}</a></td> <td>{{client.filing_set.count}}</td>
+<td><a href="{%url client_detail client.id%}">{{client.client_name}}</a></td>
+<td align=right>
+    <span class="name" style="width:100px">
+      <span class="front">{{client.filing_set.count|intcomma}}</span>
+      {%if nonzero_sum%}
+      <span class="index" style="width: {% widthratio client.filing_set.count total_filings 100 %}%"/>
+      {%endif%}
+    </span>
+</td>
+
+</td>
 </tr>
 {% endfor %}
 

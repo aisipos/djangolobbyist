@@ -73,10 +73,13 @@ def clients(request, top = defaultTop):
     ids =[x[0] for x in cursor.fetchall()]
     top_clients = Client.objects.filter(pk__in = ids) #.annotate(count=Count('filing')) #Also slow
     top_clients = sorted(top_clients, key=lambda x: x.filing_set.count(), reverse=True) #Need to resort again
+    total_filings = sum(client.filing_set.count() for client in top_clients)
+    
+    nonzero_sum = total_filings > 0
     return render_to_response("client/top_clients.html", locals(), context_instance = RequestContext(request))
 
-def client_detail(request,client_senate_id, top = defaultTop):
-    client  = Client.objects.get(pk = client_senate_id)
+def client_detail(request, client_id, top = defaultTop):
+    client  = Client.objects.get(pk = client_id)
     filings = client.filing_set.all()[:defaultTop]
     filings, total_amount, nonzero_sum = _sortfilings(filings)
     return render_to_response("client/client.html", locals(), context_instance = RequestContext(request))
@@ -93,8 +96,9 @@ def registrants(request, top = defaultTop):
     nonzero_sum = total_filings > 0
     return render_to_response("registrant/top_registrants.html", locals(), context_instance = RequestContext(request))
 
-def registrant_detail(request, registrant_senate_id, top = defaultTop):
+def registrant_detail(request, registrant_id, top = defaultTop):
     #top_clients = model.registrant.top_clients(registrant_id, top) #Clients with most filings
     #registrant = Registrant.objects.get(registrant_senate_id = registrant_senate_id) #TODO: senate id's are not unique
-    registrant = Registrant.objects.filter(registrant_senate_id = registrant_senate_id)[0]
+    registrant = Registrant.objects.filter(pk = registrant_id)[0]
+    filings, total_amount,nonzero_sum = _sortfilings(registrant.filing_set.all()[:defaultTop]) #Many to many relationship 
     return render_to_response("registrant/registrant.html", locals(), context_instance = RequestContext(request))

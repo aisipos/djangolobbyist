@@ -12,9 +12,9 @@ urlpatterns = patterns('',# View Prefix, see http://docs.djangoproject.com/en/de
                        url(r'^lobbyists?/(?P<lobbyist_id>.+?)/$'    ,'lobbyist.mainsite.views.lobbyist_detail', name = 'lobbyist_detail'),
                        url(r'^lobbyists?/$'                          ,'lobbyist.mainsite.views.lobbyists',       name = 'lobbyist'),
                        url(r'^clients?/$'                            ,'lobbyist.mainsite.views.clients',          name = 'client'),
-                       url(r'^clients?/(?P<client_senate_id>.+?)/$'         ,'lobbyist.mainsite.views.client_detail',    name = 'client_detail'),
+                       url(r'^clients?/(?P<client_id>.+?)/$'         ,'lobbyist.mainsite.views.client_detail',    name = 'client_detail'),
                        url(r'^registrants?/$'                        ,'lobbyist.mainsite.views.registrants',      name = 'registrant'),
-                       url(r'^registrants?/(?P<registrant_senate_id>\d+)/$' ,'lobbyist.mainsite.views.registrant_detail',name = 'registrant_detail'),
+                       url(r'^registrants?/(?P<registrant_id>\d+)/$' ,'lobbyist.mainsite.views.registrant_detail',name = 'registrant_detail'),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:

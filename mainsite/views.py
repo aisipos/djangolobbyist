@@ -29,10 +29,14 @@ def issues(request, top = defaultTop):
     return render_to_response("issue/top_issues.html", locals(), context_instance = RequestContext(request))
 
 def issue_detail(request, issue_id, top = defaultTop):
-    #import pdb
-    #pdb.set_trace()
     issue = Issue.objects.get(pk = issue_id)
     filings = sorted(issue.filing_set.all()[:defaultTop], key = lambda x: x.filing_amount, reverse = True)
+    for filing in filings:
+        filing.filing_amount = filing.filing_amount if isinstance(filing.filing_amount, long) else 0
+    total_amount = sum(filing.filing_amount for filing in filings)
+    nonzero_sum = total_amount > 0
+    #import pdb
+    #pdb.set_trace()
     return render_to_response("issue/issue.html", locals(), context_instance = RequestContext(request))
 
 def lobbyists(request, top = defaultTop):

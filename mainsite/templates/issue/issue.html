@@ -13,7 +13,12 @@
 <td><b>Client State</b></td>
 {% for filing in filings %}
 <tr>
-<td align=right>${{filing.filing_amount|intcomma}}</td>
+<td align=right>
+    <span class="name" style="width:100px">
+      <span class="front">${{filing.filing_amount|intcomma}}</span>
+      <span class="index" style="width: {% widthratio filing.filing_amount total_amount 100 %}%"/>
+    </span>
+</td>
 <td><a href="{%url registrant_detail filing.registrant.registrant_senate_id%}">{{filing.registrant.registrant_name}}</a></td>
 <td>{%if filing.client.client_name %}
 <a href="{%url client_detail filing.client.client_senate_id%}">{{filing.client.client_name}}</a>

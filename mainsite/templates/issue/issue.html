@@ -1,21 +1,30 @@
 {% extends "master.html" %}
 {% load lobbyist_extras %}
+{% load humanize %}
 
 {%block content%}
 <h1>Top filings for issue {{issue.code}}</h1>
 
 <div class="module-content">
 <table class="minicharttable">
+<td><b>Dollar Amount</b></td>
+<td><b>Registrant Name</b></td>
 <td><b>Client Name</b></td>
 <td><b>Client State</b></td>
-<td><b>Registrant Name</b></td>
-<td><b>Dollar Amount</b></td>
 {% for filing in filings %}
 <tr>
-<td><a href="{%url client_detail filing.client.client_senate_id%}">{{filing.client.client_name}}</a></td>
-<td>{{filing.client.client_state}}</td>
+<td align=right>${{filing.filing_amount|intcomma}}</td>
 <td><a href="{%url registrant_detail filing.registrant.registrant_senate_id%}">{{filing.registrant.registrant_name}}</a></td>
-<td>{{filing.filing_amount}}</td>
+<td>{%if filing.client.client_name %}
+<a href="{%url client_detail filing.client.client_senate_id%}">{{filing.client.client_name}}</a>
+{%endif%}
+</td>
+<td>
+<!-- {{filing.client.client_state|default_if_none:""}} -->
+{%if filing.client.client_state %}
+{{filing.client.client_state}}
+{%endif%}
+</td>
 <td><a href="{{filing.filing_id|filingPdfLink}}">Details</a></td>
 </tr>
 {% endfor %}

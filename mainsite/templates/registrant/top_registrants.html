@@ -1,13 +1,24 @@
 {% extends "master.html" %}
 
+{%load humanize%}
+
 {%block content%}
 <h1>Top Registrants</h1>
 
-<table>
+
+<table class="minicharttable">
 <td><b>Name</b><td><b>Number of Filings</b></td></td>
 {% for registrant in top_registrants %}
 <tr>
-<td><a href="{%url registrant_detail registrant.registrant_senate_id%}">{{registrant.registrant_name}}</a></td> <td>{{registrant.filing_set.count}}</td>
+<td><a href="{%url registrant_detail registrant.registrant_senate_id%}">{{registrant.registrant_name}}</a></td> 
+<td align=right>
+    <span class="name" style="width:100px">
+      <span class="front">{{registrant.filing_set.count|intcomma}}</span>
+      {%if nonzero_sum%}
+      <span class="index" style="width: {% widthratio registrant.filing_set.count total_filings 100 %}%"/>
+      {%endif%}
+    </span>
+</td>
 </tr>
 {% endfor %}
 </table>

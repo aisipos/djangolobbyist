@@ -89,6 +89,8 @@ def registrants(request, top = defaultTop):
     ids =[x[0] for x in cursor.fetchall()]
     top_registrants = Registrant.objects.filter(pk__in = ids) #.annotate(count=Count('filing')) #Also slow
     top_registrants = sorted(top_registrants, key=lambda x: x.filing_set.count(), reverse=True) #Need to resort again
+    total_filings = sum(registrant.filing_set.count() for registrant in top_registrants)
+    nonzero_sum = total_filings > 0
     return render_to_response("registrant/top_registrants.html", locals(), context_instance = RequestContext(request))
 
 def registrant_detail(request, registrant_senate_id, top = defaultTop):

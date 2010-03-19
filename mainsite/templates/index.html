@@ -1,17 +1,20 @@
 {% extends "master.html" %}
+{% load humanize %}
 
 {%block title%}
 <title>Lobbywatch Main Page</title>
 {%endblock%}
 {%block content%}
-<h1>Lobby Watch</h1>
+<h1>Welcome to LobbyWatch!</h1>
+<p>LobbyWatch is a website to explore lobbying activity to the Federal Government, using data provided by the <a href="http://www.sunlightlabs.com">Sunlight Labs</a> foundation.</p>
 
-<h4>Main links</h4>
-<ul>
-<li>  <a href="{% url issue%}">Top Issues</a></li>
-<li>  <a href="{% url lobbyist%}">Top Lobbyists</a></li>
-<li>  <a href="{% url client%}">Top Clients</a></li>
-<li>  <a href="{% url registrant%}">Top Registrants</a></li>
-</ul>
+<h4>Main Links</h4>
+<table class>
+  <tr><td>Clients are organizations that lobby the government.</td><td><a href="{% url client%}">Top Clients by number of filings</a></td><td>Total clients:</td><td align=right>{{n_Clients|intcomma}}</td></tr>
+  <tr><td>Registrants are organizations hired to do the lobbying.</td><td><a href="{% url registrant%}">Top Registrants by number of filings</a></td><td>Total Registrants:</td><td align=right>{{n_Registrants|intcomma}}</td></tr>
+  <tr><td>Issues are categories of filings.</td><td><a href="{% url issue%}">Top Issues by number of filings</a></td><td>Total Issues:</td><td align=right>{{n_Issues|intcomma}}</td></tr>
+  <tr><td>Lobbyists are individuals that actually do the lobbying.</td><td><a href="{% url lobbyist%}">Top Lobbyists by number of filings</a></td><td>Total Lobbyists:</td><td align=right>{{n_Lobbyists|intcomma}}</td></tr>
+  <tr><td>A filing is an individual lobbying petition.</td><td></td><td>Total Filings:</td><td align=right>{{n_Filings|intcomma}}</td></tr>
+</table>
 {%endblock%}
 

@@ -86,7 +86,8 @@ INSTALLED_APPS = (
     'GChartWrapper.charts',
     'django_extensions',
     'lobbyist.mainsite',
-    'django.contrib.admin'
+    'django.contrib.admin',
+    'django.contrib.humanize'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

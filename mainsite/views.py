@@ -12,6 +12,7 @@ from mainsite.models  import Filing,Client,Registrant,Issue,Lobbyist
 defaultTop = 20
 
 def index(request):
+    n_Filings, n_Clients, n_Registrants, n_Issues, n_Lobbyists  = [obj.objects.count() for obj in Filing,Client,Registrant,Issue,Lobbyist]
     return render_to_response("index.html", locals(), context_instance = RequestContext(request))
 
 def issues(request, top = defaultTop):

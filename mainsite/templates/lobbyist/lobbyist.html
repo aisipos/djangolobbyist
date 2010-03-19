@@ -1,5 +1,5 @@
 {% extends "master.html" %}
-
+{% load humanize %}
 {% load lobbyist_extras %}
 
 {%block content%}
@@ -9,16 +9,35 @@
 
 <div class="module-content">
 <table class="minicharttable">
+<td><b>Dollar Amount</b></td>
+<td><b>Registrant Name</b></td>
 <td><b>Client Name</b></td>
 <td><b>Client State</b></td>
-<td><b>Registrant Name</b></td>
-<td><b>Dollar Amount</b></td>
+<td><b>Date</b></td>
+<td><b>Details</b></td>
 {% for filing in filings %}
 <tr>
-<td><a href="{%url client_detail filing.client.client_senate_id%}">{{filing.client.client_name}}</a></td>
-<td>{{filing.client.client_state}}</td>
+<td align=right>
+    <span class="name" style="width:100px">
+      <span class="front">${{filing.filing_amount|intcomma}}</span>
+      {%if nonzero_sum%}
+      <span class="index" style="width: {% widthratio filing.filing_amount total_amount 100 %}%"/>
+      {%endif%}
+    </span>
+</td>
 <td><a href="{%url registrant_detail filing.registrant.registrant_senate_id%}">{{filing.registrant.registrant_name}}</a></td>
-<td>{{filing.filing_amount}}</td>
+<td>
+  {%if filing.client.client_name %}
+  <a href="{%url client_detail filing.client.id%}">{{filing.client.client_name}}</a>
+  {%endif%}
+</td>
+<td>
+  <!-- {{filing.client.client_state|default_if_none:""}} -->
+  {%if filing.client.client_state %}
+  {{filing.client.client_state}}
+  {%endif%}
+</td>
+<td>{{filing.filing_date}}</td>
 <td><a href="{{filing.filing_id|filingPdfLink}}">Details</a></td>
 </tr>
 {% endfor %}

@@ -28,7 +28,7 @@
       {%endif%}
     </span>
 </td>
-<td><a href="{%url registrant_detail filing.registrant.registrant_senate_id%}">{{filing.registrant.registrant_name}}</a></td>
+<td><a href="{%url registrant_detail filing.registrant.id%}">{{filing.registrant.registrant_name}}</a></td>
 <td>{{filing.filing_date}}</td>
 <td> <a href="{{filing.filing_id|filingPdfLink}}">Details</a></td>
 </tr>

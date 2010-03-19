@@ -32,7 +32,7 @@ def issue_detail(request, issue_id, top = defaultTop):
     #import pdb
     #pdb.set_trace()
     issue = Issue.objects.get(pk = issue_id)
-    filings = issue.filing_set.all()[:defaultTop]
+    filings = sorted(issue.filing_set.all()[:defaultTop], key = lambda x: x.filing_amount, reverse = True)
     return render_to_response("issue/issue.html", locals(), context_instance = RequestContext(request))
 
 def lobbyists(request, top = defaultTop):

@@ -26,6 +26,11 @@ class Client(models.Model):
     client_contact_suffix     = models.CharField(max_length=12  , blank=True, null=True)
     client_raw_contact_name   = models.CharField(max_length=300 , blank=True, null=True)
 
+    def __repr__(self):
+        return '%s' % (self.client_name)
+    def __unicode__(self):
+        return repr(self)
+
 class Registrant(models.Model):
     """A registrant is an organization who does the lobbying directly."""
     registrant_senate_id      = models.IntegerField(null=True   , blank=True, db_index=True)
@@ -35,11 +40,22 @@ class Registrant(models.Model):
     registrant_country        = models.CharField(max_length=90  , blank=True, null=True, db_index=True)
     registrant_ppb_country    = models.CharField(max_length=90  , blank=True, null=True)
 
+    def __repr__(self):
+        return '%s' % (self.registrant_name)
+    def __unicode__(self):
+        return repr(self)
+
+
 class Issue(models.Model):
     """An Issue is a category that a filing falls into. """
     issue_id       = models.IntegerField(primary_key=True)
     code           = models.CharField(max_length=300, db_index=True)
     specific_issue = models.TextField()
+
+    def __repr__(self):
+        return '%s' % (self.code)
+    def __unicode__(self):
+        return repr(self)
 
 class Filing(models.Model):
     """A filing is one particular lobbying event performed by a lobbyist (as part of a registrant) on behalf of a client. """
@@ -55,6 +71,12 @@ class Filing(models.Model):
     #One filing can have many lobbyists as well
     #One filing can have many issues as well
 
+    def __repr__(self):
+        return '%s' % (self.filing_id)
+    def __unicode__(self):
+        return repr(self)
+
+
 class Lobbyist(models.Model):
     """A lobbyist is one particular person that initiates filings"""
     lobbyist_id       = models.IntegerField(primary_key=True)
@@ -65,3 +87,8 @@ class Lobbyist(models.Model):
     official_position = models.CharField(max_length=300 , null=True)
     raw_name          = models.CharField(max_length=300 , blank=True, null=True)
     filings           = models.ManyToManyField(Filing)
+
+    def __repr__(self):
+        return '%s %s %s' % (self.firstname, self.middlename, self.lastname)
+    def __unicode__(self):
+        return repr(self)

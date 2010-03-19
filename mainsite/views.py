@@ -11,19 +11,6 @@ from mainsite.models  import Filing,Client,Registrant,Issue,Lobbyist
 
 defaultTop = 20
 
-def dictAdd(d, k,v):
-    "Add one more key to a dict"
-    d[k] = v
-    return d
-
-def make_key(s):
-    """Need to make a "key" field to produce links with. We'll use code, url encoded with slashes turned to dashes"""
-    return quote(s.replace('/','-').lower())
-
-def unquote_key(s):
-    """Need to make a "key" field to produce links with. We'll use code, url encoded with slashes turned to dashes"""
-    return unquote(s).upper().replace('-','/')
-
 def index(request):
     return render_to_response("index.html", locals(), context_instance = RequestContext(request))
 

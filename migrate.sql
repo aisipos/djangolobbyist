@@ -210,12 +210,21 @@ select li.filing_id, mi.issue_id from lobbyist.lobbyists_issue as li
 ;
 
 
+
 -- Setup many to many join table between lobbyists and filings
+-- lobbyist.lobbyists_lobbyist has a unique lobbyist id per (filing,lobbyist), not per (lobbyist)
 insert into mainsite_lobbyist_filings(
     lobbyist_id,
     filing_id
 )
 select
-    lobbyist.lobbyists_lobbyist.id,
-    lobbyist.lobbyists_lobbyist.filing_id    
-from lobbyist.lobbyists_lobbyist;
+    ml.lobbyist_id,
+    ll.filing_id    
+from lobbyist.lobbyists_lobbyist  as ll
+join mainsite_lobbyist as ml 
+-- Treat lobbyists with the same first, middle, and last names as the same
+ on  ll.firstname  = ml.firstname   AND
+     ll.middlename = ml.middlename  AND
+     ll.lastname   = ml.lastname
+-- Yikes, the first,middle,last criterion is not enough to guarantee uniqueness
+group by ml.lobbyist_id, ll.filing_id 

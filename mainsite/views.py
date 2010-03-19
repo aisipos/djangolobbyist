@@ -20,7 +20,6 @@ def issues(request, top = defaultTop):
     #pdb.set_trace()
     #Needs index on issue_id in mainsite_filing_issues
     cursor = connection.cursor()
-    #TODO: always returns issues with 1 filing, suspect something wrong with migration script
     cursor.execute("SELECT issue_id, COUNT(issue_id) FROM mainsite_filing_issues GROUP BY issue_id ORDER BY COUNT(issue_id) DESC LIMIT %d" % top)
     ids =[x[0] for x in cursor.fetchall()]
     top_issues = Issue.objects.filter(pk__in = ids) #.annotate(count=Count('filing')) #Also slow
@@ -53,7 +52,6 @@ def lobbyists(request, top = defaultTop):
     #top_lobbyists = Lobbyist.objects.annotate(num_filings=Count('filings')).order_by('-num_filings')[:5] #
     cursor = connection.cursor()
     #Really needs an index on column lobbyist_id in join table mainsite_lobbyist_filings
-    #TODO: always returns lobbyists with 1 filing, suspect something wrong with migration script
     cursor.execute("SELECT lobbyist_id, COUNT(lobbyist_id) FROM mainsite_lobbyist_filings GROUP BY lobbyist_id ORDER BY COUNT(lobbyist_id) DESC LIMIT %d" % top)
     ids =[x[0] for x in cursor.fetchall()]
     top_lobbyists = Lobbyist.objects.filter(pk__in = ids) #.annotate(count=Count('filing')) #Also slow

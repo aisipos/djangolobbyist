@@ -60,7 +60,7 @@ class Issue(models.Model):
 
 class Filing(models.Model):
     """A filing is one particular lobbying event performed by a lobbyist (as part of a registrant) on behalf of a client. """
-    filing_id                 = models.CharField(max_length=108, primary_key=True)
+    filing_id                 = models.CharField(max_length=108, primary_key=True) #Preserve pk from original table
     filing_period             = models.CharField(max_length=90, null=True, db_index=True)
     filing_date               = models.DateField(null=True, db_index=True)
     filing_amount             = models.IntegerField(null=True, blank=True, db_index=True)
@@ -79,8 +79,8 @@ class Filing(models.Model):
 
 
 class Lobbyist(models.Model):
-    """A lobbyist is one particular person that initiates filings"""
-    lobbyist_id       = models.IntegerField(primary_key=True)
+    """A lobbyist is one particular person working for a registrant"""
+    lobbyist_id       = models.IntegerField(primary_key=True) #Preserve pk from original table
     firstname         = models.CharField(max_length=90  , null=True)
     middlename        = models.CharField(max_length=90  , blank=True, null=True)
     lastname          = models.CharField(max_length=90  , null=True)

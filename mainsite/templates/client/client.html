@@ -1,4 +1,5 @@
 {% extends "master.html" %}
+{% load lobbyist_extras %}
 
 {%block content%}
 <h1>Client {{client.client_name}}</h1>
@@ -16,7 +17,7 @@
 <td><b>Filing Date</b></td>
 {% for filing in filings %}
 <tr>
-<td> <a href="http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID={{filing.filing_id}}">Details</a></td>
+<td> <a href="{{filing.filing_id|filingPdfLink}}">Details</a></td>
 <td> <span class="name" style="width:100px">
       <span class="front">{{filing.filing_amount}}</span>
       {%if non_zero_sum%}

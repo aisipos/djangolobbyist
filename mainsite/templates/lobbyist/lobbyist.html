@@ -1,8 +1,9 @@
 {% extends "master.html" %}
 
+{% load lobbyist_extras %}
+
 {%block content%}
 <h1>Lobbyist Detail: {{lobbyist.firstname}} {{lobbyist.lastname}}</h1>
-
 
 <h2>Top Filings</h2>
 
@@ -18,7 +19,7 @@
 <td>{{filing.client.client_state}}</td>
 <td><a href="{%url registrant_detail filing.registrant.registrant_senate_id%}">{{filing.registrant.registrant_name}}</a></td>
 <td>{{filing.filing_amount}}</td>
-<td><a href="http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID={{filing.filing_id}}">Details</a></td>
+<td><a href="{{filing.filing_id|filingPdfLink}}">Details</a></td>
 </tr>
 {% endfor %}
 </table>

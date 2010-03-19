@@ -15,3 +15,9 @@ def make_key(s):
 def unquote_key(s):
     """Need to make a "key" field to produce links with. We'll use code, url encoded with slashes turned to dashes"""
     return unquote(s).upper().replace('-','/')
+
+@register.filter
+@stringfilter
+def filingPdfLink(filing_id):
+    "Given a filing id, generate a link to it's PDF from soprweb.senate.gov"
+    return "http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID=%s" % (filing_id)

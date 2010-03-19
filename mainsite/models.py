@@ -1,10 +1,4 @@
 from django.db import models
-
-def filingPdfLink(id):
-    "Given a filing id, generate a link to it's PDF from soprweb.senate.gov"
-    #TODO: Put this in the Django template language somehow
-    return "http://soprweb.senate.gov/index.cfm?event=getFilingDetails&filingID=%s" % (id)
-
         
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:

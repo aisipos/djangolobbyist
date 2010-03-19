@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.humanize.templatetags.humanize import intcomma
         
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
@@ -72,7 +73,7 @@ class Filing(models.Model):
     #One filing can have many issues as well
 
     def __repr__(self):
-        return '%s' % (self.filing_id)
+        return '%s ($%s on %s by %s)' % (self.filing_id, intcomma(self.filing_amount), self.filing_date, self.registrant)
     def __unicode__(self):
         return repr(self)
 

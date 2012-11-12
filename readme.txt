@@ -10,9 +10,7 @@ Requirements:
  * MySQL, python MySQL drivers
  ** A database called django_lobbyist,
  ** This will be created in two stages from the data found at http://data.sunlightlabs.com/sunlightapi/api_lobbyists.sql.gz, which you can do via:
- *** wget http://data.sunlightlabs.com/sunlightapi/api_lobbyists.sql.gz
- **** NOTE:!! As of 3/2010 sunlight labs doesn't have this available. I will contact them for a new location. Contact me for a copy in the meantime.
- *** gunzip api_lobbyists.sql
+ *** bunzip2 api_lobbyists.sql.bz2
  *** mysql -u root
  ***  create database lobbyist;
  ***  use lobbyist;
